@@ -1,10 +1,11 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { AiOutlineDown } from 'react-icons/ai'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import ethLogo from '../assets/eth.png'
 import uniswapLogo from '../assets/uniswap.png'
+import { useContext } from 'react'
 
 const style = {
   wrapper: `p-4 w-screen flex justify-between items-center`,
@@ -76,7 +77,7 @@ const Header = () => {
             <AiOutlineDown />
           </div>
         </div>
-
+ 
         <div className={`${style.button} ${style.buttonPadding}`}>
           <div className={`${style.buttonIconContainer} mx-2`}>
             <HiOutlineDotsVertical />

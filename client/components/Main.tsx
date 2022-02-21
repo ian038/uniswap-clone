@@ -2,8 +2,10 @@ import Image from 'next/image'
 import { RiSettings3Fill } from 'react-icons/ri'
 import { AiOutlineDown } from 'react-icons/ai'
 import ethLogo from '../assets/eth.png'
+import { useContext } from 'react'
 import Modal from 'react-modal'
 import { useRouter } from 'next/router'
+import TransactionLoader from './TransactionLoader'
 
 Modal.setAppElement('#__next')
 
@@ -41,7 +43,7 @@ const Main = () => {
   const router = useRouter()
 
   const handleSubmit = async (e: any) => {
-        e.preventDefault()
+    e.preventDefault()
   }
 
   return (
@@ -84,7 +86,7 @@ const Main = () => {
       </div>
 
       <Modal isOpen={!!router.query.loading} style={customStyles}>
-        {/* <TransactionLoader /> */}
+        <TransactionLoader />
       </Modal>
     </div>
   )
