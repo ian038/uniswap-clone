@@ -5,6 +5,7 @@ import ethLogo from '../assets/eth.png'
 import Modal from 'react-modal'
 import { useRouter } from 'next/router'
 import TransactionLoader from './TransactionLoader'
+import { useTransactionContext } from '../context/TransactionContext'
 
 Modal.setAppElement('#__next')
 
@@ -39,10 +40,15 @@ const customStyles = {
 }
 
 const Main = () => {
+  const { formData, handleChange, sendTransaction } = useTransactionContext()
   const router = useRouter()
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
+    const { addressTo, amount } = formData
+    e.preventDefault()  
+
+    if (!addressTo || !amount) return 
+    sendTransaction()
   }
 
   return (
@@ -60,6 +66,7 @@ const Main = () => {
             className={style.transferPropInput}
             placeholder='0.0'
             pattern='^[0-9]*[.,]?[0-9]*$'
+            onChange={e => handleChange(e, 'amount')}
           />
           <div className={style.currencySelector}>
             <div className={style.currencySelectorContent}>
@@ -76,6 +83,7 @@ const Main = () => {
             type='text'
             className={style.transferPropInput}
             placeholder='0x...'
+            onChange={e => handleChange(e, 'addressTo')}
           />
           <div className={style.currencySelector}></div>
         </div>
