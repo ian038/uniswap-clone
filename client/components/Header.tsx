@@ -38,7 +38,7 @@ const Header = () => {
         `
         const clientRes = await client.fetch(query)
 
-        if (!(clientRes[0].userName == 'Unnamed')) {
+        if (!(clientRes[0]?.userName == 'Unnamed')) {
           setUserName(clientRes[0].userName)
         } else {
           setUserName(`${currentAccount.slice(0, 7)}...${currentAccount.slice(35)}`)
