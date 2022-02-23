@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { transactionsABI, transactionsAddress } from '../utils/constants'
+import { client } from '../utils/sanity'
 
 const TransactionContext = createContext()
 
@@ -20,6 +21,28 @@ export const TransactionProvider = ({ children }) => {
       addressTo: '',
       amount: ''
     })
+
+    useEffect(() => {
+      if (loading) {
+        router.push(`/?loading=${currentAccount}`)
+      } else {
+        router.push(`/`)
+      }
+    }, [loading])
+
+    useEffect(() => {
+      if (!currentAccount) return;
+      (async () => {
+        const userDoc = {
+          _type: 'users',
+          _id: currentAccount,
+          userName: 'Unnamed',
+          address: currentAccount,
+        }
+  
+        await client.createIfNotExists(userDoc)
+      })()
+    }, [currentAccount])
 
     const handleChange = (e, name) => {
         setFormData(prevState => ({ ...prevState, [name]: e.target.value }))
@@ -105,7 +128,7 @@ export const TransactionProvider = ({ children }) => {
     
           await transactionHash.wait()
     
-        //   await saveTransaction(transactionHash.hash, amount, currentAccount, addressTo)
+          await saveTransaction(transactionHash.hash, amount, currentAccount, addressTo)
     
           setLoading(false)
         } catch (error) {
